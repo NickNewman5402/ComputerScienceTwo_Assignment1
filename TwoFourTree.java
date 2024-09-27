@@ -141,46 +141,56 @@ public class TwoFourTree {
     	}
     	
     	//Now if we are a leaf node
-    	/****Two Node****/
+    	/****Two Node leaf****/
         if (current.isTwoNode()) {
             if (value < current.value1) {
                 current.value2 = current.value1; // Shift value1 to value2
                 current.value1 = value; // Insert new value at value1
+                current.values += 1;
             } else {
                 current.value2 = value; // Insert new value at value2
+                current.values += 1;
             } 
-        /****Three Node****/
+        /****Three Node leaf****/
             } else if (current.isThreeNode()) {
             	if (value < current.value1) {
             		current.value3 = current.value2;
             		current.value2 = current.value1;
             		current.value1 = value;
+            		current.values += 1;
             	} else if (value < current.value2) {
             		current.value3 = current.value2;
             		current.value2 = value;
+            		current.values += 1;
             	} else {
             		current.value3 = value;
+            		current.values += 1;
             	}
-        /****Four Node****/
+        /****Four Node leaf****/
             } else if (current.isFourNode()) {
             	
-            	return false;
-            	//This needs to be completed
+            	
+            	// Splitting 4-node structure to 2-node structure with two children. 
+            	current.leftChild = new TwoFourTreeItem(current.value1);
+            	current.value1 = current.value2;
+            	current.rightChild = new TwoFourTreeItem(current.value3);
+            	current.value2 = 0;
+            	current.value3 = 0;
+            	current.values = 1;
+            	current.isLeaf = false;
+            	addValue(value);
             }
         
-
-
-    	
         return false;
     }
     
     
-
     public boolean hasValue(int value) {
         return false;
     }
 
     public boolean deleteValue(int value) {
+    	
         return false;
     }
 
