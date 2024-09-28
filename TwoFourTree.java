@@ -111,30 +111,49 @@ public class TwoFourTree {
     	
     	TwoFourTreeItem current = root;
     	
+    	
     	//Traversing through the tree
     	while(!current.isLeaf) {
 	        if (current.isTwoNode()) {
+	        	        	
 	            if (value < current.value1) {
+	            	current.leftChild.parent = current;
 	                current = current.leftChild;
 	            } else {
+	            	current.rightChild.parent = current;
 	                current = current.rightChild;
 	            }
+	            
+	            
 	        } else if (current.isThreeNode()) {
+	        
 	        	if (value < current.value1) {
+	            	current.leftChild.parent = current;
 	        		current = current.leftChild;
 	        	} else if (value < current.value2) {
+	            	current.centerChild.parent = current;
 	        		current = current.centerChild;
 	        	} else {
+	            	current.rightChild.parent = current;
 	        		current = current.rightChild;
 	        	}
+	        	
+	        	
 	        } else if (current.isFourNode()) {
+	        	
+	        	current.parent = current;
+	        	
 	        	if (value < current.value1) {
+	            	current.leftChild.parent = current;
 	        		current = current.leftChild;
 	        	} else if ( value < current.value2) {
+	            	current.centerLeftChild.parent = current;
 	        		current = current.centerLeftChild;	
 	        		} else if (value < current.value3) {
+		            	current.centerRightChild.parent = current;
 	        			current = current.centerRightChild;
 	        		} else {
+		            	current.rightChild.parent = current;
 	        			current = current.rightChild;
 	        	}
 	        }    		
@@ -169,16 +188,50 @@ public class TwoFourTree {
         /****Four Node leaf****/
             } else if (current.isFourNode()) {
             	
+            	if(current != root && current.parent.isTwoNode()) {            	
             	
-            	// Splitting 4-node structure to 2-node structure with two children. 
+            	current.parent.value2 = current.value2;
+            	current.parent.values = 2;
+            	current.parent.centerChild = new TwoFourTreeItem(current.value1);
+            	current.value1= current.value3;
+            	current.value2 = value;
+            	current.value3 = 0;
+            	current.isLeaf = true;
+            	current.values = 2;
+            	
+            	} else if(current != root && current.parent.isThreeNode()) {
+            		
+            	current.parent.value3 = current.value2;
+            	current.parent.values = 3;
+            	current.parent.centerLeftChild = current.parent.centerChild;
+            	current.parent.centerRightChild = new TwoFourTreeItem(current.value1);
+            	current.value1= current.value3;
+            	current.value2 = value;
+            	current.value3 = 0;
+            	current.isLeaf = true;
+            	current.values = 2;
+            	
+            	} else if (current != root && current.parent.isFourNode()) {
+            		
+            		// This is where I need to come back and finish. I am good up to 
+            		// adding value 29. 
+            		
+            		return true;
+            	            	
+            	} else {
+            	
+            	// initial run of the code when all i have is root. 
             	current.leftChild = new TwoFourTreeItem(current.value1);
-            	current.value1 = current.value2;
-            	current.rightChild = new TwoFourTreeItem(current.value3);
+            	current.rightChild = new TwoFourTreeItem(current.value3, value);
+            	current.value1= current.value2;
             	current.value2 = 0;
             	current.value3 = 0;
-            	current.values = 1;
             	current.isLeaf = false;
-            	addValue(value);
+            	current.values = 1;
+            	
+            	}
+            	
+
             }
         
         return false;
@@ -190,7 +243,8 @@ public class TwoFourTree {
     }
 
     public boolean deleteValue(int value) {
-    	
+    	// This is going to end up traversing the tree finding a value and deleting it
+    	// this is not going to be used for clearing keys in a node
         return false;
     }
 
