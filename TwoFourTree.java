@@ -170,7 +170,6 @@ public class TwoFourTree {
                 current.value2 = value; // Insert new value at value2
                 current.values += 1;
             } 
-            
         /****Three Node leaf****/
             } else if (current.isThreeNode()) {
             	if (value < current.value1) {
@@ -186,7 +185,6 @@ public class TwoFourTree {
             		current.value3 = value;
             		current.values += 1;
             	}
-            	
         /****Four Node leaf****/
             } else if (current.isFourNode()) {
             	
@@ -214,7 +212,6 @@ public class TwoFourTree {
             	current.values = 2;
             	
             	} else if (current != root && current.parent.isFourNode()) {
-            		
             		// This is where I need to come back and finish. I am good up to 
             		// adding value 29. 
             		
@@ -228,16 +225,23 @@ public class TwoFourTree {
             		
             		TwoFourTreeItem newRoot = new TwoFourTreeItem(current.parent.value2); // root is 7
             		newRoot.isLeaf = false;
+            		newRoot.values = 1;
             		
             		newRoot.leftChild = new TwoFourTreeItem(current.parent.value1); // left child 3
+            		newRoot.leftChild.isLeaf = false;
+            		newRoot.leftChild.values = 1;
             		newRoot.leftChild.leftChild = current.parent.leftChild; // left child left child 2
-            		newRoot.leftChild.rightChild = current.parent.centerLeftChild; // left child right child 5      		
+            		newRoot.leftChild.leftChild.values = 1;
+            		newRoot.leftChild.rightChild = current.parent.centerLeftChild; // left child right child 5 
+            		newRoot.leftChild.rightChild.values = 1;
             		
             		newRoot.rightChild = new TwoFourTreeItem(current.parent.value3); // right child is 13
             		newRoot.rightChild.isLeaf = false;
+            		newRoot.rightChild.values = 1;
             		newRoot.rightChild.leftChild = current.parent.centerRightChild; // right child left child is 11
+            		newRoot.rightChild.values = 1;
             		newRoot.rightChild.rightChild = current; // right child right child 17 19 23
-            		
+            		newRoot.rightChild.rightChild.values = 1;
             		// split right child
             		newRoot.rightChild.value2 = current.value2; // 19 moves up next to 13
             		newRoot.rightChild.values = 2;
@@ -249,7 +253,8 @@ public class TwoFourTree {
             		
             		root = newRoot;
             		
-            		
+            		// When i get to 47 things mess up. 47 basically becomes the root of the tree. Because I am not 
+            		// handeling the parent of the parent. 
             		
             		
             		return true;
