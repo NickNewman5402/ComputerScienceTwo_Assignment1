@@ -170,6 +170,7 @@ public class TwoFourTree {
                 current.value2 = value; // Insert new value at value2
                 current.values += 1;
             } 
+            
         /****Three Node leaf****/
             } else if (current.isThreeNode()) {
             	if (value < current.value1) {
@@ -185,6 +186,7 @@ public class TwoFourTree {
             		current.value3 = value;
             		current.values += 1;
             	}
+            	
         /****Four Node leaf****/
             } else if (current.isFourNode()) {
             	
@@ -215,6 +217,40 @@ public class TwoFourTree {
             		
             		// This is where I need to come back and finish. I am good up to 
             		// adding value 29. 
+            		
+            		// split the parent
+            		
+            		/* I believe the code below here for the next 21 lines is an else condition of
+            		 an if, else if statement where if is if current.parent is a two node insert
+            		 value to current.parent.value2 else if current.parent is a three node insert
+            		 value to current.parent.value3 else... do what i have coded. This is being 
+            		 uploaded to github under commit */
+            		
+            		TwoFourTreeItem newRoot = new TwoFourTreeItem(current.parent.value2); // root is 7
+            		newRoot.isLeaf = false;
+            		
+            		newRoot.leftChild = new TwoFourTreeItem(current.parent.value1); // left child 3
+            		newRoot.leftChild.leftChild = current.parent.leftChild; // left child left child 2
+            		newRoot.leftChild.rightChild = current.parent.centerLeftChild; // left child right child 5      		
+            		
+            		newRoot.rightChild = new TwoFourTreeItem(current.parent.value3); // right child is 13
+            		newRoot.rightChild.isLeaf = false;
+            		newRoot.rightChild.leftChild = current.parent.centerRightChild; // right child left child is 11
+            		newRoot.rightChild.rightChild = current; // right child right child 17 19 23
+            		
+            		// split right child
+            		newRoot.rightChild.value2 = current.value2; // 19 moves up next to 13
+            		newRoot.rightChild.values = 2;
+            		newRoot.rightChild.centerChild = new TwoFourTreeItem(current.value1);	
+            		newRoot.rightChild.rightChild.value1 = current.value3;
+            		newRoot.rightChild.rightChild.value2 = value; 
+            		newRoot.rightChild.rightChild.value3 = 0;
+            		newRoot.rightChild.rightChild.values = 2;
+            		
+            		root = newRoot;
+            		
+            		
+            		
             		
             		return true;
             	            	
